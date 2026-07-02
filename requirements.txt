@@ -1,6 +1,0 @@
-fastapi
-uvicorn
-pydantic
-google-genai
-edge-tts
-googletrans==4.0.0-rc1
