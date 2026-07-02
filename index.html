@@ -48,8 +48,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             position: relative;
+            padding: 2rem 1rem;
         }
 
         /* ─── Ambient Background Glow ─── */
@@ -345,8 +347,44 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                align-items: flex-start;
+                justify-content: flex-start;
+                padding: 1rem 0.5rem;
+            }
+
+            .container {
+                padding: 1rem 0.5rem;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
             .workspace {
                 grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .box {
+                padding: 1rem;
+            }
+
+            textarea {
+                height: 140px;
+                font-size: 0.95rem;
+            }
+
+            .lang-select select {
+                min-width: 130px;
+                font-size: 0.82rem;
+                padding: 0.65rem 2.2rem 0.65rem 0.85rem;
+            }
+
+            .swap-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
             }
 
             .box.source-box {
@@ -839,11 +877,12 @@
 
             renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            const isMobile = window.innerWidth < 768;
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.25 : 2));
 
             // Create star geometry
             starGeo = new THREE.BufferGeometry();
-            const starCount = 1500;
+            const starCount = isMobile ? 400 : 1500;
             const positions = new Float32Array(starCount * 3);
 
             for (let i = 0; i < starCount; i++) {
@@ -925,7 +964,8 @@
         // ─── Floating Particles ───
         (function createParticles() {
             const container = document.getElementById('particles');
-            for (let i = 0; i < 40; i++) {
+            const particleCount = window.innerWidth < 768 ? 12 : 40;
+            for (let i = 0; i < particleCount; i++) {
                 const p = document.createElement('div');
                 p.className = 'particle';
                 p.style.left = Math.random() * 100 + '%';
